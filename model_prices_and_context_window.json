@@ -11,6 +11,23 @@
         "supports_parallel_function_calling": true,
         "supports_vision": true
     },
+    "gemini/gemini-1.5-flash-exp-0827": {
+        "max_tokens": 8192,
+        "max_input_tokens": 2097152,
+        "max_output_tokens": 8192,
+        "input_cost_per_token": 0.0000035,
+        "input_cost_per_token_above_128k_tokens": 0.000007,
+        "output_cost_per_token": 0.0000105,
+        "output_cost_per_token_above_128k_tokens": 0.000021,
+        "litellm_provider": "gemini",
+        "mode": "chat",
+        "supports_system_messages": true,
+        "supports_function_calling": true,
+        "supports_vision": true,
+        "supports_tool_choice": true,
+        "supports_response_schema": true,
+        "source": "https://ai.google.dev/pricing"
+    },
     "gpt-4": {
         "max_tokens": 4096, 
         "max_input_tokens": 8192,
@@ -27,6 +44,18 @@
         "max_output_tokens": 4096,
         "input_cost_per_token": 0.000005,
         "output_cost_per_token": 0.000015,
+        "litellm_provider": "openai",
+        "mode": "chat",
+        "supports_function_calling": true,
+        "supports_parallel_function_calling": true,
+        "supports_vision": true
+    },
+    "gpt-4o-mini": {
+        "max_tokens": 16384,
+        "max_input_tokens": 128000,
+        "max_output_tokens": 16384,
+        "input_cost_per_token": 0.00000015,
+        "output_cost_per_token": 0.00000060,
         "litellm_provider": "openai",
         "mode": "chat",
         "supports_function_calling": true,
