@@ -1309,6 +1309,11 @@ class VertexLLM(VertexBase):
             client = client
 
         try:
+            verbose_logger.debug(f"Vertex AI Sync Completion Request - API Base: {url}")
+            verbose_logger.debug(f"Vertex AI Sync Completion Request - Headers: {headers}")
+            request_body_pretty_json = json.dumps(data, indent=2)
+            verbose_logger.debug(f"Vertex AI Sync Completion Request - Body:\n{request_body_pretty_json}")
+
             response = client.post(url=url, headers=headers, json=data)  # type: ignore
             response.raise_for_status()
         except httpx.HTTPStatusError as err:
