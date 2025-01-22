@@ -835,6 +835,14 @@ async def make_call(
             llm_provider=litellm.LlmProviders.VERTEX_AI,
         )
 
+    verbose_logger.debug(f"Vertex AI Async Request - API Base: {api_base}")
+    verbose_logger.debug(f"Vertex AI Async Request - Headers: {headers}")
+    try:
+        request_body_pretty_json = json.dumps(json.loads(data), indent=2) # data is already stringified json, load then dump for pretty print
+        verbose_logger.debug(f"Vertex AI Async Request - Body:\n{request_body_pretty_json}")
+    except json.JSONDecodeError: # in case data is not valid json string
+        verbose_logger.debug(f"Vertex AI Async Request - Body (non-json string):\n{data}")
+
     try:
         response = await client.post(api_base, headers=headers, data=data, stream=True)
         response.raise_for_status()
@@ -880,6 +888,15 @@ def make_sync_call(
         client = gemini_client
     if client is None:
         client = HTTPHandler()  # Create a new client if none provided
+
+    verbose_logger.debug(f"Vertex AI Sync Request - API Base: {api_base}")
+    verbose_logger.debug(f"Vertex AI Sync Request - Headers: {headers}")
+    try:
+        request_body_pretty_json = json.dumps(json.loads(data), indent=2) # data is already stringified json, load then dump for pretty print
+        verbose_logger.debug(f"Vertex AI Sync Request - Body:\n{request_body_pretty_json}")
+    except json.JSONDecodeError: # in case data is not valid json string
+        verbose_logger.debug(f"Vertex AI Sync Request - Body (non-json string):\n{data}")
+
 
     response = client.post(api_base, headers=headers, data=data, stream=True)
 
@@ -1055,6 +1072,13 @@ class VertexLLM(VertexBase):
         )
 
         request_body = await async_transform_request_body(**data)  # type: ignore
+
+        verbose_logger.debug(f"Vertex AI Async Completion Request - API Base: {api_base}")
+        verbose_logger.debug(f"Vertex AI Async Completion Request - Headers: {headers}")
+        request_body_pretty_json = json.dumps(request_body, indent=2)
+        verbose_logger.debug(f"Vertex AI Async Completion Request - Body:\n{request_body_pretty_json}")
+
+
         _async_client_params = {}
         if timeout:
             _async_client_params["timeout"] = timeout
@@ -1229,6 +1253,12 @@ class VertexLLM(VertexBase):
 
         ## TRANSFORMATION ##
         data = sync_transform_request_body(**transform_request_params)
+
+        verbose_logger.debug(f"Vertex AI Sync Completion Request - API Base: {url}")
+        verbose_logger.debug(f"Vertex AI Sync Completion Request - Headers: {headers}")
+        request_body_pretty_json = json.dumps(data, indent=2)
+        verbose_logger.debug(f"Vertex AI Sync Completion Request - Body:\n{request_body_pretty_json}")
+
 
         ## LOGGING
         logging_obj.pre_call(
